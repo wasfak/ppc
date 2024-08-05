@@ -2,6 +2,11 @@ import multer from "multer";
 import xlsx from "xlsx";
 
 const upload = multer({ storage: multer.memoryStorage() });
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 const readAndProcessFile = (fileBuffer, sheetName) => {
   const workbook = xlsx.read(fileBuffer, { type: "buffer" });
@@ -121,12 +126,6 @@ const handler = async (req, res) => {
   } else {
     res.status(405).json({ error: "Method Not Allowed" });
   }
-};
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
 };
 
 export default handler;
