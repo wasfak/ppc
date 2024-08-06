@@ -7,11 +7,11 @@ import { UserButton, auth } from "@clerk/nextjs";
 export default function Header() {
   const { userId } = auth();
   return (
-    <header className="text-[#66fcf1] py-4 xl:py-4">
+    <header className="text-mainColor py-4 xl:py-4">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/">
-          <h1 className="text-4xl font-semibold text-[#66fcf1]">
-            Wasfy<span className="text-[#66fcf1]">.</span>
+          <h1 className="text-4xl font-semibold text-[#fd796d]">
+            Wasfy<span className="text-[#fd796d]">.</span>
           </h1>
         </Link>
 

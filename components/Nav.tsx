@@ -9,7 +9,7 @@ export default function Nav() {
     { name: "Home", href: "/" },
 
     { name: "Weeks Comparison", href: "/compare" },
-    { name: "Cutting Bleeders", href: "/upload" },
+    { name: "Cutting Bleeders", href: "/bleed" },
     { name: "Month Analysis", href: "/month" },
   ];
   console.log(pathname);
@@ -23,8 +23,8 @@ export default function Nav() {
             key={index}
             className={`${
               link.href === pathname &&
-              "text-[#66fcf1] border-b-2 border-[#66fcf1]"
-            } capitalize text-white font-medium hover:text-[#0fa4af] transition-all ease-in-out`}
+              "text-[#fd796d] border-b-2 border-mainColor"
+            } capitalize text-white font-medium hover:text-mainColor transition-all ease-in-out`}
           >
             {link.name}
           </Link>

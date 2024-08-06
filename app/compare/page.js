@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import { Inter } from "next/font/google";
 import { Button } from "@/components/ui/button";
+import { uploadAndCompare } from "@/lib/actions/compare";
 
 const inter = Inter({ subsets: ["latin"] });
 
 const formatChange = (value) => `${value.toFixed(2)}`;
-
 const formatPercentage = (value) => {
   if (value > 0) {
     return `↑ ${value.toFixed(2)}%`;
@@ -48,17 +48,9 @@ export default function UploadPage() {
       formData.append("prevWeek", prevWeekFile);
       formData.append("currWeek", currWeekFile);
 
-      const response = await fetch("/api/uploadAndCompare", {
-        method: "POST",
-        body: formData,
-      });
+      const data = await uploadAndCompare(formData);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const responseData = await response.json();
-      setComparisonData(responseData.comparison);
+      setComparisonData(data.formattedComparisonData);
     } catch (error) {
       console.error("Error uploading files:", error);
       setError("An error occurred while uploading the files.");
@@ -68,8 +60,8 @@ export default function UploadPage() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-between p-24 container mx-auto overflow-y-scroll">
-      <div className="border shadow-xl flex flex-col items-center gap-y-6 rounded-xl p-6 w-full">
+    <main className="flex flex-col items-center justify-between p-24 container mx-auto overflow-y-scroll h-[100vh]">
+      <div className="">
         <div className="flex w-full justify-between gap-6">
           <div className="flex flex-col items-center w-1/2">
             <label className="my-6 font-bold text-white">
@@ -96,11 +88,7 @@ export default function UploadPage() {
         </div>
 
         {prevWeekFile && currWeekFile && (
-          <Button
-            disabled={isLoading}
-            onClick={handleUpload}
-            className="mt-6 bg-[#66fcf1] text-[#66fcf1] hover:bg-[#66fcf1]"
-          >
+          <Button disabled={isLoading} onClick={handleUpload}>
             {isLoading ? "Working..." : "Upload Files"}
           </Button>
         )}
@@ -108,7 +96,7 @@ export default function UploadPage() {
         {error && <p className="text-red-500 mt-4">{error}</p>}
 
         {comparisonData && (
-          <div className="mt-6 overflow-x-auto w-full">
+          <div className="mt-6 overflow-y-scroll w-full text-white">
             <table className="min-w-full bg-white border border-gray-300">
               <thead>
                 <tr>
@@ -130,33 +118,25 @@ export default function UploadPage() {
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(comparisonData).map(
-                  ([metric, values], index) => (
-                    <tr key={index}>
-                      <td className="py-2 px-4 border-b border-gray-300">
-                        {metric}
-                      </td>
-                      <td className="py-2 px-4 border-b border-gray-300">
-                        {metric === "averageCTR" ||
-                        metric === "averageConversionRate"
-                          ? formatCTR(values.previous)
-                          : formatChange(values.previous)}
-                      </td>
-                      <td className="py-2 px-4 border-b border-gray-300">
-                        {metric === "averageCTR" ||
-                        metric === "averageConversionRate"
-                          ? formatCTR(values.latest)
-                          : formatChange(values.latest)}
-                      </td>
-                      <td className="py-2 px-4 border-b border-gray-300">
-                        {formatChange(values.change)}
-                      </td>
-                      <td className="py-2 px-4 border-b border-gray-300">
-                        {formatPercentage(values.percentageChange)}
-                      </td>
-                    </tr>
-                  )
-                )}
+                {comparisonData.map((item, index) => (
+                  <tr key={index}>
+                    <td className="py-2 px-4 border-b border-gray-300">
+                      {item.metric}
+                    </td>
+                    <td className="py-2 px-4 border-b border-gray-300">
+                      {item.previous}
+                    </td>
+                    <td className="py-2 px-4 border-b border-gray-300">
+                      {item.latest}
+                    </td>
+                    <td className="py-2 px-4 border-b border-gray-300">
+                      {item.change}
+                    </td>
+                    <td className="py-2 px-4 border-b border-gray-300">
+                      {item.percentageChange}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

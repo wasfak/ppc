@@ -35,7 +35,7 @@ export default function RootLayout({
         <body
           className={`${laila.className} bg-[#FAF9F6]`}
           style={{
-            backgroundImage: "url(/bg_2.webp)",
+            backgroundImage: "url(/5.jpg)",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center center",

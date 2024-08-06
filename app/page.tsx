@@ -19,14 +19,14 @@ export default function Home() {
       <div className="flex items-center justify-center flex-col gap-y-6">
         <h1 className="text-6xl">
           welcome to the interesting world of <br />
-          <span className="text-[#66fcf1] flex items-center my-6 justify-center">
+          <span className="text-mainColor flex items-center my-6 justify-center">
             Amazon PPC
           </span>
         </h1>
       </div>
 
       <h2 className="text-2xl">
-        we help you to <span className="text-[#66fcf1]">optimize</span> every
+        we help you to <span className="text-mainColor">optimize</span> every
         aspect of your Amazon PPC campaigns
       </h2>
       <div className="flex justify-center items-center ">

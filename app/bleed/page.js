@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import { Button } from "@/components/ui/button";
+import { userTable } from "@/lib/actions/bleed";
 
 const columnsToShow = [
   "Entity",
@@ -39,18 +40,7 @@ export default function UploadPage() {
 
       const formData = new FormData();
       formData.append("file", file);
-
-      const response = await fetch("/api/uploadExcel", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const responseData = await response.json();
-      console.log(responseData);
+      const data = await userTable(formData);
 
       // Check for errors in the response data
       if (responseData.error) {
@@ -59,7 +49,7 @@ export default function UploadPage() {
         setIsUploaded(false); // Reset uploaded state
       } else {
         // Add "Operation" column to each row
-        const updatedData = responseData.map((row) => ({
+        const updatedData = data.map((row) => ({
           ...row,
           Operation: "Update",
         }));
@@ -109,7 +99,7 @@ export default function UploadPage() {
 
         {responseData.length > 0 && (
           <>
-            <div className="mt-6 overflow-x-auto">
+            <div className="mt-6 overflow-x-auto text-white">
               <table className=" bg-white border border-gray-300">
                 <thead>
                   <tr>

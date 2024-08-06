@@ -11,7 +11,7 @@ export default function CardInfo({ title, p }: TitleProps) {
       <h3 className="mb-4 text-xl font-bold">{title}</h3>
       <p className="flex-grow">{p}</p>
       <div className="flex items-center justify-between">
-        <button className="group bg-[#66fcf1] text-black px-4 py-2 rounded-md flex items-center justify-between ">
+        <button className="group bg-mainColor text-black px-4 py-2 rounded-md flex items-center justify-between ">
           More Info
           <ArrowUpRight className="w-6 h-6 transform group-hover:rotate-45 transition-transform duration-300" />
         </button>
